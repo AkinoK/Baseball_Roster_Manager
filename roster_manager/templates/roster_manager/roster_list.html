@@ -1,0 +1,210 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mapplewood Team Roster</title>
+    <!-- <script src="{% static 'roster_manager/script.js' %}"></script> -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'roster_manager/script.js' %}"></script> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script src="{% static 'roster_manager/script.js' %}"></script>
+    <style>
+        .logo {
+            display: inline-block;
+            vertical-align: middle;
+            max-width: 100px;
+        }
+        .container h1{
+            display: inline-block;
+            vertical-align: middle;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .add-player-button {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: -50px; 
+            margin-bottom: 10px;
+        }
+        .btn-primary {
+            background-color: #C10000;
+            border-color: #C10000;
+        }
+        .btn-primary:hover {
+            background-color: #ca5050;
+            border-color: #ca5050;
+        }
+        .border-left {
+            border-left: 1px solid #dee2e6;
+        }
+        
+        .border-right {
+            border-right: 1px solid #dee2e6;
+        }
+        #lsp{
+            font-size: small;
+            font-weight: 600;
+            padding: 0px;
+            margin: 0px;
+            border-bottom: none;
+        }
+        .table thead tr th{
+            padding-top: 0px;
+            background-color: #134A8E;
+            color: white;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        .actions a {
+            margin-right: 10px;
+            color: #134A8E;
+        }
+
+
+
+    </style>
+</head>
+<body class="container">
+    <img src="{% static 'roster_manager/images/maplewood_logo2.png' %}" alt="Logo" class="logo">
+
+    <h1 class="text-center my-4">Maplewood Team Roster 2023</h1>
+    <div class="add-player-button">
+        <a href="{% url 'add_player' %}" class="btn btn-primary">New Player</a>
+    </div>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th rowspan="2">No.</th>
+                <th rowspan="2">First Name</th>
+                <th rowspan="2">Last Name</th>
+                <th rowspan="2">Position</th>
+                <th rowspan="2" class="text-center">B/T</th>
+                <th rowspan="2" class="text-center">Ht.</th>
+                <th rowspan="2" class="text-center">Wt.</th>
+                <th colspan="4" class="text-center" id="lsp">Last Season's performance</th>
+                <th rowspan="2" class="text-center">Birthdate</th>
+                <th rowspan="2" class="text-center">Hometown</th>
+                <th rowspan="2" class="text-center">School</th>
+                <th rowspan="2" class="text-center">CS</th>
+                <th rowspan="2" class="text-center">Actions</th>
+            </tr>
+            <tr>
+                <th>AVG</th>
+                <th>HR</th>
+                <th>Pitching W-L</th>
+                <th>ERA</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in players %}
+                <tr>
+                    <td>{{ player.jersey_number }}</td>
+                    <td>{{ player.first_name }}</td>
+                    <td>{{ player.last_name }}</td>
+                    <td>{{ player.position.name }}</td>
+                    <td class="text-center">{{ player.batting_throwing }}</td>
+                    <td class="text-center">{{ player.height }}</td>
+                    <td class="text-center">{{ player.weight }}</td>
+                    <td class="text-center border-left">{{ player.avg }}</td>
+                    <td class="text-center">{{ player.home_runs }}</td>
+
+                    {% if player.position.name != "Pitcher" %}
+                        <td class="text-center">-</td>
+                        <td class="text-center border-right">-</td>
+                    {% else %}
+                        <td class="text-center">{{ player.pitching_wins|default:"-None" }}-{{ player.pitching_losses|default:"-None" }}</td>
+                        <td class="text-center border-right">{{ player.era|default:"-None" }}</td>
+                    {% endif %}
+
+                    <td class="text-center">{{ player.birthdate }}</td>
+                    <td class="text-center">{{ player.hometown }}</td>
+                    <td class="text-center">{{ player.school }}</td>
+                    <td class="text-center">{{ player.class_standing }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'edit_player' player.id %}"><i class="fas fa-edit"></i></a>
+                        <!-- <a href="#" class="delete-player-link" data-delete-url="{% url 'delete_player' player.id %}" data-player-name="{{ player.first_name }} {{ player.last_name }}"><i class="fas fa-trash-alt"></i></a> -->
+                        <!-- <a type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" onclick="return confirmDelete('{{ player.first_name }} {{ player.last_name }}');" data-player-name="{{ player.first_name }} {{ player.last_name }}"><i class="fas fa-trash-alt"></i></a> -->
+                        <!-- <a type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" onclick="confirmDelete(this);" data-player-name="{{ player.first_name }} {{ player.last_name }}"><i class="fas fa-trash-alt"></i></a> -->
+                        <a type="button" class="delete-player-icon" data-toggle="modal" data-target="#myModal" data-player-id="{{ player.id }}" data-player-name="{{ player.first_name }} {{ player.last_name }}"><i class="fas fa-trash-alt"></i></a>
+
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3">
+        <div class="container text-center">
+            <span class="text-muted">&copy; 2023 Mapplewood Baseball Team - Akino Kashima</span>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+        
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Confirm Delete</h4>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete <span id="playerNameToDelete"></span>?
+            </div>
+            <!-- <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div> -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a data-player-id="{{ player.id }}" id="deletePlayerLink" data-dismiss="modal" class="btn btn-danger">Delete</a>
+
+
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+    <!-- Delete Player Modal -->
+    <!-- <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete <span id="playerNameToDelete"></span>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a id="deletePlayerLink" href="#" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div> -->
+<!-- <script src="{% static 'roster_manager/script.js' %}"></script> -->
+
+</body>
+
+</html>

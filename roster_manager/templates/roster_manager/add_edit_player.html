@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if player %}Edit{% else %}Add{% endif %} Player</title>
+    <script src="{% static 'roster_manager/script.js' %}"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .form-group label, .form-group select, .form-group input {
+            width: 30%;
+            margin-right: 5%;
+        }
+
+        button {
+            background-color: #C10000;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        a {
+            color: #003DA5;
+            text-decoration: none;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'roster_list' %}">Back to Roster</a>
+        <h1>{% if player %}Edit{% else %}New{% endif %} Player</h1>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="{{ form.jersey_number.id_for_label }}">No.</label>
+                {{ form.jersey_number }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.first_name.id_for_label }}">First name</label>
+                {{ form.first_name }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.last_name.id_for_label }}">Last name</label>
+                {{ form.last_name }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.position.id_for_label }}">Position</label>
+                {{ form.position }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.batting_throwing.id_for_label }}">B/T</label>
+                {{ form.batting_throwing }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.height.id_for_label }}">Ht.</label>
+                {{ form.height }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.weight.id_for_label }}">Wt.</label>
+                {{ form.weight }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.avg.id_for_label }}">AVG</label>
+                {{ form.avg }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.home_runs.id_for_label }}">Home Runs</label>
+                {{ form.home_runs }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.pitching_wins.id_for_label }}">Pitching Wins</label>
+                {{ form.pitching_wins }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.pitching_losses.id_for_label }}">Pitching Losses</label>
+                {{ form.pitching_losses }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.era.id_for_label }}">ERA</label>
+                {{ form.era }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.birthdate.id_for_label }}">Birthday</label>
+                {{ form.birthdate }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.hometown.id_for_label }}">Hometown</label>
+                {{ form.hometown }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.school.id_for_label }}">School</label>
+                {{ form.school }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.class_standing.id_for_label }}">CL.</label>
+                {{ form.class_standing }}
+            </div>
+            
+            <button type="submit">{% if player %}Save Changes{% else %}Add Player{% endif %}</button>
+        </form>
+        
+        
+    </div>
+</body>
+</html>
